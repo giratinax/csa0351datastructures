@@ -1,25 +1,60 @@
-#include <stdio.h>
-#include <limits.h>
-
-int main() {
-    int num;
-    printf("Enter a 32-bit signed integer: ");
-    scanf("%d", &num);
-
-    int reversed = 0;
-
-    while (num != 0) {
-        if (reversed > INT_MAX / 10 || reversed < INT_MIN / 10) {
-            printf("Reversed integer causes overflow/underflow.\n");
-            return 1;
-        }
-
-        reversed = reversed * 10 + num % 10;
-        num /= 10;
-    }
-
-    printf("Reversed integer: %d\n", reversed);
-
-    return 0;
+#include < stdio.h >
+ 
+void heapify(int arr[], int n, int i) {
+      int temp;
+      int largest = i;
+      int l = 2 * i + 1;
+      int r = 2 * i + 2;
+ 
+      if (l < n && arr[l] > arr[largest])
+         largest = l;
+ 
+      if (r < n && arr[r] > arr[largest])
+         largest = r;
+ 
+      if (largest != i) {
+         temp = arr[i];
+         arr[i] = arr[largest];
+         arr[largest] = temp;
+ 
+         heapify(arr, n, largest);
+      }
+   }
+ 
+void heapSort(int arr[], int n) {
+   int temp;
+ 
+   for (int i = n / 2 - 1; i >= 0; i--)
+      heapify(arr, n, i);
+ 
+   for (int i = n - 1; i >= 0; i--) {
+      temp = arr[0];
+      arr[0] = arr[i];
+      arr[i] = temp;
+ 
+      heapify(arr, i, 0);
+   }
 }
-
+ 
+int main() {
+   int arr[] = {
+      9,
+      1,
+      5,
+      8,
+      2
+   };
+   int n = 5;
+   int i;
+ 
+   printf("Given array is: \n");
+   for (i = 0; i < n; i++)
+      printf("%d ", arr[i]);
+   printf("\n");
+ 
+   heapSort(arr, n);
+ 
+   printf("\nSorted array is: \n");
+   for (i = 0; i < n; ++i)
+      printf("%d ", arr[i]);
+}
